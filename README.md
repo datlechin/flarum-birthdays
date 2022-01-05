@@ -4,7 +4,7 @@
 
 A [Flarum](http://flarum.org) extension. Adds birthdays to user.
 
-![](https://github.com/datlechin/static/blob/main/datlechin-flarum-birthdays.png?raw=true)
+![](https://i.imgur.com/jfkTnp2.png)
 
 ## Installation
 
@@ -25,11 +25,11 @@ php flarum cache:clear
 
 - [x] Show birthdays on user card.
 - [x] User can set their own birthdays.
+- [x] Add ability to user can hide their date of birth and age.
 - [ ] Add a widget to show birthdays on the forum homepage.
 - [ ] Add birthday field to `EditUserModal` modal.
 - [ ] Add for the users birthday during registration.
 - [ ] Add ability to who can see and edit the birthdays.
-
 
 ## Links
 

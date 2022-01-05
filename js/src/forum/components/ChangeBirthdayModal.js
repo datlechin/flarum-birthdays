@@ -27,7 +27,7 @@ export default class ChangeBirthdayModal extends Modal {
       <div className="Modal-body">
         <div className="Form">
           <div className="Form-group">
-            <label>Birthday</label>
+            <label>{app.translator.trans('datlechin-birthdays.forum.change_dob.date_of_birth_text')}</label>
             <input type="date" name="birthday" className="FormControl" bidi={this.birthday} disabled={this.loading} />
           </div>
           <div className="Form-group">
