@@ -13,7 +13,7 @@ class BirthdayValidator extends AbstractValidator
         'birthday' => [
             'required',
             'date_format:Y-m-d',
-            'before:today',
+            'before:today'
         ],
     ];
 }

@@ -25,6 +25,10 @@ return [
 
     new Extend\Locales(__DIR__ . '/locale'),
 
+    (new Extend\User())
+        ->registerPreference('showDobDate', 'boolVal', false)
+        ->registerPreference('showDobYear', 'boolVal', false),
+
     (new Extend\Event())
         ->listen(Saving::class, SaveUserBirthday::class),
 
