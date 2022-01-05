@@ -1,0 +1,11 @@
+datlechin-birthdays:
+  admin:
+
+  forum:
+    user:
+      birthday_text: "Birthday: {date}"
+    header:
+      edit_birthday_button: Edit Birthday
+    change_birthday:
+      title: Edit Birthday
+      submit_button: => core.forum.change_email.submit_button

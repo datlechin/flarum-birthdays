@@ -1,0 +1,38 @@
+# Birthdays
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Latest Stable Version](https://img.shields.io/packagist/v/datlechin/flarum-birthdays.svg)](https://packagist.org/packages/datlechin/flarum-birthdays) [![Total Downloads](https://img.shields.io/packagist/dt/datlechin/flarum-birthdays.svg)](https://packagist.org/packages/datlechin/flarum-birthdays)
+
+A [Flarum](http://flarum.org) extension. Adds birthdays to user.
+
+![](https://github.com/datlechin/static/blob/main/datlechin-flarum-birthdays.png?raw=true)
+
+## Installation
+
+Install with composer:
+
+```sh
+composer require datlechin/flarum-birthdays:"*"
+```
+
+## Updating
+
+```sh
+composer update datlechin/flarum-birthdays:"*"
+php flarum cache:clear
+```
+
+## Goal
+
+- [x] Show birthdays on user card.
+- [x] User can set their own birthdays.
+- [ ] Add a widget to show birthdays on the forum homepage.
+- [ ] Add birthday field to `EditUserModal` modal.
+- [ ] Add for the users birthday during registration.
+- [ ] Add ability to who can see and edit the birthdays.
+
+
+## Links
+
+- [Packagist](https://packagist.org/packages/datlechin/flarum-birthdays)
+- [GitHub](https://github.com/datlechin/flarum-birthdays)
+- [Discuss](https://discuss.flarum.org/d/29793)
