@@ -16,7 +16,6 @@ use Datlechin\Birthdays\Listeners\SaveUserBirthday;
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
 use Flarum\User\Event\Saving;
-use Flarum\User\User;
 
 return [
     (new Extend\Frontend('forum'))
@@ -24,10 +23,6 @@ return [
         ->css(__DIR__ . '/less/forum.less'),
 
     new Extend\Locales(__DIR__ . '/locale'),
-
-    (new Extend\User())
-        ->registerPreference('showDobDate', 'boolVal', false)
-        ->registerPreference('showDobYear', 'boolVal', false),
 
     (new Extend\Event())
         ->listen(Saving::class, SaveUserBirthday::class),

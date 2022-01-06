@@ -71,8 +71,8 @@ export default class ChangeBirthdayModal extends Modal {
     // need to do anything. Woot!
     if (
       this.birthday() === app.session.user.birthday() &&
-      this.showDobDate() === app.session.user.showDobDate &&
-      this.showDobYear() === app.session.user.showDobYear
+      this.showDobDate() === app.session.user.showDobDate() &&
+      this.showDobYear() === app.session.user.showDobYear()
     ) {
       this.hide();
       return;

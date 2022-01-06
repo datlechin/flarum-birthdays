@@ -23,7 +23,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   });
   extend(UserCard.prototype, 'infoItems', function (items) {
     const user = this.attrs.user;
-    const userLocale = user.preferences()?.locale || 'en';
+    const userLocale = user.preferences()?.locale || app.translator.formatter.locale;
     let birthday = user.birthday();
     let age;
     const date = new Date(birthday);
