@@ -19,6 +19,8 @@ class AddUserBirthdayAttribute
     public function __invoke(UserSerializer $serializer, User $user, array $attributes): array
     {
         $attributes['birthday'] = $user->birthday;
+        $attributes['showDobDate'] = $user->showDobDate ? true : false;
+        $attributes['showDobYear'] = $user->showDobYear ? true : false;
 
         return $attributes;
     }

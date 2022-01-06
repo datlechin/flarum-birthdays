@@ -10,8 +10,8 @@ export default class ChangeBirthdayModal extends Modal {
     const user = app.session.user;
 
     this.birthday = Stream(user.birthday());
-    this.showDobDate = Stream(user.preferences().showDobDate);
-    this.showDobYear = Stream(user.preferences().showDobYear);
+    this.showDobDate = Stream(user.showDobDate());
+    this.showDobYear = Stream(user.showDobYear());
   }
 
   className() {
@@ -71,8 +71,8 @@ export default class ChangeBirthdayModal extends Modal {
     // need to do anything. Woot!
     if (
       this.birthday() === app.session.user.birthday() &&
-      this.showDobDate() === app.session.user.preferences().showDobDate &&
-      this.showDobYear() === app.session.user.preferences().showDobYear
+      this.showDobDate() === app.session.user.showDobDate &&
+      this.showDobYear() === app.session.user.showDobYear
     ) {
       this.hide();
       return;
@@ -83,7 +83,11 @@ export default class ChangeBirthdayModal extends Modal {
 
     app.session.user
       .save(
-        { birthday: this.birthday() },
+        {
+          birthday: this.birthday(),
+          showDobDate: this.showDobDate(),
+          showDobYear: this.showDobYear(),
+        },
         {
           errorHandler: this.onerror.bind(this),
         }
@@ -94,10 +98,6 @@ export default class ChangeBirthdayModal extends Modal {
       })
       .catch(() => {})
       .then(this.loaded.bind(this));
-
-    if (this.showDobDate() !== app.session.user.preferences().showDobDate || this.showDobYear() !== app.session.user.preferences().showDobYear) {
-      app.session.user.savePreferences({ showDobDate: this.showDobDate(), showDobYear: this.showDobYear() });
-    }
   }
 
   onerror(error) {

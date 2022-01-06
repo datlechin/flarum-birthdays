@@ -15,5 +15,7 @@ class BirthdayValidator extends AbstractValidator
             'date_format:Y-m-d',
             'before:today'
         ],
+        'showDobDate' => ['boolean'],
+        'showDobYear' => ['boolean'],
     ];
 }

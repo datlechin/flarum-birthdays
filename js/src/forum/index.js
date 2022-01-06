@@ -23,7 +23,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   });
   extend(UserCard.prototype, 'infoItems', function (items) {
     const user = this.attrs.user;
-    const userLocale = user.preferences().locale || 'en';
+    const userLocale = user.preferences()?.locale || 'en';
     let birthday = user.birthday();
     let age;
     const date = new Date(birthday);
@@ -35,10 +35,10 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
 
     if (birthday === '0000-00-00') return;
 
-    if (userPreferences.showDobDate && userPreferences.showDobYear) {
+    if (user.showDobDate() && user.showDobYear()) {
       age = new Date().getFullYear() - new Date(birthday).getFullYear();
       birthday = date.toLocaleDateString(userLocale, options);
-    } else if (userPreferences.showDobDate === true && userPreferences.showDobYear === false) {
+    } else if (user.showDobDate() === true && user.showDobYear() === false) {
       birthday = date.toLocaleDateString(userLocale, options);
       birthday = birthday.split(',')[0];
     } else {
@@ -50,9 +50,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
       <>
         {icon('fas fa-birthday-cake')}
         <span className="birthday">{app.translator.trans('datlechin-birthdays.forum.user.birthday_text', { date: birthday })}</span>
-        {userPreferences.showDobYear ? (
-          <span className="age">({app.translator.trans('datlechin-birthdays.forum.user.age_text', { age: age })})</span>
-        ) : null}
+        {user.showDobYear() ? <span className="age">({app.translator.trans('datlechin-birthdays.forum.user.age_text', { age: age })})</span> : null}
       </>
     );
   });

@@ -42,9 +42,11 @@ class SaveUserBirthday
 
         $attributes = Arr::get($data, 'attributes', []);
 
-        if (isset($attributes['birthday'])) {
+        if (isset($attributes)) {
             $this->validator->assertValid(['birthday' => $attributes['birthday']]);
             $user->birthday = $attributes['birthday'];
+            $user->showDobDate = $attributes['showDobDate'];
+            $user->showDobYear = $attributes['showDobYear'];
 
             $user->save();
         }
