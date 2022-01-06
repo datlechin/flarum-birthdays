@@ -24,16 +24,24 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   extend(UserCard.prototype, 'infoItems', function (items) {
     const user = this.attrs.user;
     const userPreferences = user.preferences();
+    const userLocale = userPreferences.locale || 'en';
     let birthday = user.birthday();
     let age;
+    const date = new Date(birthday);
+    const options = {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    };
 
     if (birthday === '0000-00-00') return;
 
     if (userPreferences.showDobDate && userPreferences.showDobYear) {
-      birthday = birthday.split('-')[1] + '/' + birthday.split('-')[2] + '/' + birthday.split('-')[0];
-      age = new Date().getFullYear() - birthday.split('/')[2];
+      age = new Date().getFullYear() - new Date(birthday).getFullYear();
+      birthday = date.toLocaleDateString(userLocale, options);
     } else if (userPreferences.showDobDate === true && userPreferences.showDobYear === false) {
-      birthday = birthday.split('-')[1] + '/' + birthday.split('-')[2];
+      birthday = date.toLocaleDateString(userLocale, options);
+      birthday = birthday.split(',')[0];
     } else {
       return;
     }
