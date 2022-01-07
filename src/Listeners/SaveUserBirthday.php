@@ -30,10 +30,10 @@ class SaveUserBirthday
 
         if (isset($attributes['showDobDate'])) {
             $user->showDobDate = $attributes['showDobDate'];
+            $user->save();
         } else if (isset($attributes['showDobYear'])) {
             $user->showDobYear = $attributes['showDobYear'];
+            $user->save();
         }
-
-        $user->save();
     }
 }
