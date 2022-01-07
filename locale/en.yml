@@ -14,6 +14,7 @@ datlechin-birthdays:
       date_of_birth_text: Date of Birth
       submit_button: => core.ref.save_changes
     settings:
+      change_dob_label: Change Date of Birth
       birthday_heading: Date of Birth
       show_dob_date_label: Show day and month of birth
       show_dob_year_label: Show year of birth

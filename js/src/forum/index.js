@@ -4,12 +4,14 @@ import User from 'flarum/common/models/User';
 import Model from 'flarum/common/Model';
 import SignUpModal from 'flarum/forum/components/SignUpModal';
 import EditUserModal from 'flarum/common/components/EditUserModal';
+import Button from 'flarum/common/components/Button';
 import SettingsPage from 'flarum/common/components/SettingsPage';
 import FieldSet from 'flarum/common/components/FieldSet';
 import Switch from 'flarum/common/components/Switch';
 import Stream from 'flarum/common/utils/Stream';
 import UserCard from 'flarum/forum/components/UserCard';
 import icon from 'flarum/common/helpers/icon';
+import ChangeBirthdayModal from './components/ChangeBirthdayModal';
 
 app.initializers.add('datlechin/flarum-birthdays', () => {
   User.prototype.birthday = Model.attribute('birthday');
@@ -129,6 +131,15 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
         </Switch>
         <span className="helpText">{app.translator.trans('datlechin-birthdays.forum.settings.show_dob_year_help')}</span>
       </FieldSet>
+    );
+  });
+
+  extend(SettingsPage.prototype, 'accountItems', function (items) {
+    items.add(
+      'changeBirthday',
+      <Button className="Button" onclick={() => app.modal.show(ChangeBirthdayModal)}>
+        {app.translator.trans('datlechin-birthdays.forum.settings.change_dob_label')}
+      </Button>
     );
   });
 });

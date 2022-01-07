@@ -27,8 +27,8 @@ php flarum cache:clear
 - [x] User can set their own birthdays.
 - [x] Add ability to user can hide their date of birth and age.
 - [ ] Add a widget to show birthdays on the forum homepage.
-- [ ] Add birthday field to `EditUserModal` modal.
-- [ ] Add for the users birthday during registration.
+- [x] Add birthday field to `EditUserModal` modal.
+- [x] Add for the users birthday during registration.
 - [ ] Add ability to who can see and edit the birthdays.
 
 ## Links
