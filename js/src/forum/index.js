@@ -1,9 +1,11 @@
 import app from 'flarum/forum/app';
 import User from 'flarum/common/models/User';
 import Model from 'flarum/common/Model';
-import addBirthdayUserCard from './components/addBirthdayUserCard';
-import addChangeBirthdaySettingsPage from './components/addChangeBirthdaySettingsPage';
-import addBirthdaySessionDrodpown from './components/addBirthdaySessionDropdown';
+
+import addBirthdayUserCard from './addBirthdayUserCard';
+import addBirthdaySettings from './addBirthdaySettings';
+import addBirthdaySignUpModal from './addBirthdaySignUpModal';
+import addBirthdayEditUserModal from './addBirthdayEditUserModal';
 
 app.initializers.add('datlechin/flarum-birthdays', () => {
   User.prototype.birthday = Model.attribute('birthday');
@@ -11,6 +13,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   User.prototype.showDobYear = Model.attribute('showDobYear');
 
   addBirthdayUserCard();
-  addChangeBirthdaySettingsPage();
-  addBirthdaySessionDrodpown();
+  addBirthdaySettings();
+  addBirthdaySignUpModal();
+  addBirthdayEditUserModal();
 });

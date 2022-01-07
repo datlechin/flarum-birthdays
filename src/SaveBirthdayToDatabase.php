@@ -9,13 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Datlechin\Birthdays\Listeners;
+namespace Datlechin\Birthdays;
 
 use Flarum\User\Event\Saving;
 use Illuminate\Support\Arr;
 
-class SaveUserBirthday
+class SaveBirthdayToDatabase
 {
+
     /**
      * Handle the event.
      *
@@ -25,15 +26,14 @@ class SaveUserBirthday
     {
         $user = $event->user;
         $data = $event->data;
+        $actor = $event->actor;
 
         $attributes = Arr::get($data, 'attributes', []);
 
-        if (isset($attributes['showDobDate'])) {
-            $user->showDobDate = $attributes['showDobDate'];
-        } else if (isset($attributes['showDobYear'])) {
-            $user->showDobYear = $attributes['showDobYear'];
-        }
+        if (isset($attributes['birthday'])) {
+            $actor->assertCan('editBirthday', $user);
 
-        $user->save();
+            $user->birthday = $attributes['birthday'];
+        }
     }
 }

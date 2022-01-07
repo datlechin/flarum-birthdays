@@ -2,7 +2,7 @@ import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
 import SettingsPage from 'flarum/forum/components/SettingsPage';
 import Button from 'flarum/common/components/Button';
-import ChangeBirthdayModal from '../components/ChangeBirthdayModal';
+import ChangeBirthdayModal from './components/ChangeBirthdayModal';
 
 export default function addChangeBirthdaySettingsPage() {
   extend(SettingsPage.prototype, 'accountItems', function (items) {

@@ -15,7 +15,7 @@ export default function addBirthdayUserCard() {
       year: 'numeric',
     };
 
-    if (birthday === '0000-00-00') return;
+    if (birthday === '0000-00-00' || birthday === '') return;
 
     if (user.showDobDate() && user.showDobYear()) {
       age = new Date().getFullYear() - new Date(birthday).getFullYear();
