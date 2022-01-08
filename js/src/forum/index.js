@@ -60,7 +60,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
     items.add(
       'birthday',
       <div className="Form-group">
-        <label>{app.translator.trans('datlechin-birthdays.forum.edit_user.birthdays_heading')}</label>
+        <label>{app.translator.trans('datlechin-birthdays.forum.edit_user.dob_heading')}</label>
         <input className="FormControl" type="date" bidi={this.birthday} />
       </div>,
       30
@@ -100,7 +100,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   extend(SettingsPage.prototype, 'settingsItems', function (items) {
     items.add(
       'birthday',
-      <FieldSet className="Settings-birthday" label={app.translator.trans(`datlechin-birthdays.forum.settings.birthday_heading`)}>
+      <FieldSet className="Settings-birthday" label={app.translator.trans(`datlechin-birthdays.forum.settings.dob_heading`)}>
         <Switch
           state={this.user.showDobDate()}
           onchange={(value) => {

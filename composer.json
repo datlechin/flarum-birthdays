@@ -35,22 +35,6 @@
                 "color": "#fff",
                 "backgroundColor": "#D3241C"
             }
-        },
-        "flarum-cli": {
-            "modules": {
-                "js": true,
-                "jsCommon": false,
-                "css": true,
-                "locale": true,
-                "gitConf": true,
-                "githubActions": true,
-                "prettier": true,
-                "typescript": false,
-                "bundlewatch": false,
-                "backendTesting": false,
-                "editorConfig": true,
-                "styleci": false
-            }
         }
     }
 }
