@@ -12,6 +12,8 @@ import Stream from 'flarum/common/utils/Stream';
 import UserCard from 'flarum/forum/components/UserCard';
 import icon from 'flarum/common/helpers/icon';
 import ChangeBirthdayModal from './components/ChangeBirthdayModal';
+import calculateAge from './helpers/calculateAge';
+import moment from 'moment';
 
 app.initializers.add('datlechin/flarum-birthdays', () => {
   User.prototype.birthday = Model.attribute('birthday');
@@ -21,26 +23,18 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   extend(UserCard.prototype, 'infoItems', function (items) {
     const user = this.attrs.user;
     const userLocale = user.preferences()?.locale || app.translator.formatter.locale;
+    const dateFormat = app.forum.attribute('dateFormat') || 'DD MMMM YYYY';
+    const dateNoneYearFormat = app.forum.attribute('dateNoneYearFormat') || 'DD MMMM';
     let birthday = user.birthday();
-    let age;
-    const date = new Date(birthday);
-    const options = {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    };
+    const age = calculateAge(birthday);
 
-    if (birthday === '0000-00-00' || birthday === '') return;
+    moment.locale(userLocale);
 
-    if (user.showDobDate() && user.showDobYear()) {
-      age = new Date().getFullYear() - new Date(birthday).getFullYear();
-      birthday = date.toLocaleDateString(userLocale, options);
-    } else if (user.showDobDate() === true && user.showDobYear() === false) {
-      birthday = date.toLocaleDateString(userLocale, options);
-      birthday = birthday.split(',')[0];
-    } else {
-      return;
-    }
+    if (birthday === null) return;
+
+    if (user.showDobDate() && user.showDobYear()) birthday = moment(birthday).format(dateFormat);
+    else if (user.showDobDate() === true && user.showDobYear() === false) birthday = moment(birthday).format(dateNoneYearFormat);
+    else return;
 
     items.add(
       'birthday',
@@ -106,7 +100,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
           onchange={(value) => {
             this.showDobDateLoading = true;
 
-            this.user.save({ showDobDate: value }).then(() => {
+            this.user.save({ showDobDate: value, showDobYear: value }).then(() => {
               this.showDobDateLoading = false;
               m.redraw();
             });
@@ -125,7 +119,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
               m.redraw();
             });
           }}
-          loading={this.showDobYearLoading}
+          loading={this.showDobYearLoading || this.showDobDateLoading}
         >
           {app.translator.trans('datlechin-birthdays.forum.settings.show_dob_year_label')}
         </Switch>

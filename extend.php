@@ -14,7 +14,7 @@ namespace Datlechin\Birthdays;
 use Datlechin\Birthdays\AddBirthdayValidation;
 use Datlechin\Birthdays\Access\UserPolicy;
 use Datlechin\Birthdays\Listeners\AddUserBirthdayAttribute;
-use Datlechin\Birthdays\Listeners\SaveUserBirthday;
+use Datlechin\Birthdays\Listeners\SaveBirthdayToDatabase;
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
 use Flarum\User\Event\Saving;
@@ -32,14 +32,15 @@ return [
     new Extend\Locales(__DIR__ . '/locale'),
 
     (new Extend\Event())
-        ->listen(Saving::class, SaveUserBirthday::class)
         ->listen(Saving::class, SaveBirthdayToDatabase::class),
 
     (new Extend\ApiSerializer(UserSerializer::class))
         ->attributes(AddUserBirthdayAttribute::class),
 
     (new Extend\Settings())
-        ->serializeToForum('setBirthdayOnRegistration', 'datlechin-birthdays.set_on_registration', 'boolval'),
+        ->serializeToForum('setBirthdayOnRegistration', 'datlechin-birthdays.set_on_registration', 'boolval')
+        ->serializeToForum('dateFormat', 'datlechin-birthdays.date_format', 'strval')
+        ->serializeToForum('dateNoneYearFormat', 'datlechin-birthdays.date_none_year_format', 'strval'),
 
     (new Extend\Validator(UserValidator::class))
         ->configure(AddBirthdayValidation::class),

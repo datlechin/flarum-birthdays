@@ -14,8 +14,9 @@ namespace Datlechin\Birthdays\Listeners;
 use Flarum\User\Event\Saving;
 use Illuminate\Support\Arr;
 
-class SaveUserBirthday
+class SaveBirthdayToDatabase
 {
+
     /**
      * Handle the event.
      *
@@ -25,15 +26,16 @@ class SaveUserBirthday
     {
         $user = $event->user;
         $data = $event->data;
-
+        $actor = $event->actor;
         $attributes = Arr::get($data, 'attributes', []);
 
-        if (isset($attributes['showDobDate'])) {
-            $user->showDobDate = $attributes['showDobDate'];
-            $user->save();
-        } else if (isset($attributes['showDobYear'])) {
-            $user->showDobYear = $attributes['showDobYear'];
-            $user->save();
+        if (isset($attributes['showDobDate'])) $user->showDobDate = $attributes['showDobDate'];
+        if (isset($attributes['showDobYear'])) $user->showDobYear = $attributes['showDobYear'];
+
+        if (isset($attributes['birthday'])) {
+            $actor->assertCan('editBirthday', $user);
+
+            $user->birthday = $attributes['birthday'] === '' ? null : $attributes['birthday'];
         }
     }
 }

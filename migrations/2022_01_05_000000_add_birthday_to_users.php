@@ -3,5 +3,5 @@
 use Flarum\Database\Migration;
 
 return Migration::addColumns('users', [
-    'birthday' => ['type' => 'date']
+    'birthday' => ['type' => 'date', 'nullable' => true],
 ]);

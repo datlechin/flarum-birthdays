@@ -2,6 +2,9 @@ datlechin-birthdays:
   admin:
     settings:
       set_on_registration_label: Allow setting birthdays on registration
+      date_format_label: Date format
+      date_format_help: Use the <a>moment.js</a> date format. Leave blank to use the default format.
+      date_none_year_label: Date format without year
 
   forum:
     user:
@@ -21,3 +24,6 @@ datlechin-birthdays:
       show_dob_year_help: This will allow people to see your age.
     edit_user:
       dob_heading: Date of Birth
+
+  api:
+    invalid_dob_message: "Your date of birth must be less than 100 years old."

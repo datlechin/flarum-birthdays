@@ -12,9 +12,21 @@
 namespace Datlechin\Birthdays;
 
 use Illuminate\Validation\Validator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AddBirthdayValidation
 {
+    /**
+     * @var TranslatorInterface
+     */
+    protected $translator;
+
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * @param Validator $validator
      */
@@ -25,7 +37,17 @@ class AddBirthdayValidation
         $rules['birthday'] = [
             'nullable',
             'date_format:Y-m-d',
-            'before:today',
+            function ($attribute, $value, $fail) {
+                if ($value) {
+                    $birthday = new \DateTime($value);
+                    $now = new \DateTime();
+                    $diff = $now->diff($birthday);
+                    if ($diff->y > 100) {
+                        $fail($this->translator->trans('datlechin-birthdays.api.invalid_dob_message'));
+                    }
+                }
+            },
+            'before:today'
         ];
 
         $validator->setRules($rules);
