@@ -5,7 +5,7 @@ import Model from 'flarum/common/Model';
 import SignUpModal from 'flarum/forum/components/SignUpModal';
 import EditUserModal from 'flarum/common/components/EditUserModal';
 import Button from 'flarum/common/components/Button';
-import SettingsPage from 'flarum/common/components/SettingsPage';
+import SettingsPage from 'flarum/forum/components/SettingsPage';
 import FieldSet from 'flarum/common/components/FieldSet';
 import Switch from 'flarum/common/components/Switch';
 import Stream from 'flarum/common/utils/Stream';
