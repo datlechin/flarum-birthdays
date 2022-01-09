@@ -11,14 +11,16 @@ import Switch from 'flarum/common/components/Switch';
 import Stream from 'flarum/common/utils/Stream';
 import UserCard from 'flarum/forum/components/UserCard';
 import icon from 'flarum/common/helpers/icon';
+import moment from 'moment';
+
 import ChangeBirthdayModal from './components/ChangeBirthdayModal';
 import calculateAge from './helpers/calculateAge';
-import moment from 'moment';
 
 app.initializers.add('datlechin/flarum-birthdays', () => {
   User.prototype.birthday = Model.attribute('birthday');
   User.prototype.showDobDate = Model.attribute('showDobDate');
   User.prototype.showDobYear = Model.attribute('showDobYear');
+  User.prototype.canEditOwnBirthday = Model.attribute('canEditOwnBirthday');
 
   extend(UserCard.prototype, 'infoItems', function (items) {
     const user = this.attrs.user;
@@ -92,48 +94,52 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   });
 
   extend(SettingsPage.prototype, 'settingsItems', function (items) {
-    items.add(
-      'birthday',
-      <FieldSet className="Settings-birthday" label={app.translator.trans(`datlechin-birthdays.forum.settings.dob_heading`)}>
-        <Switch
-          state={this.user.showDobDate()}
-          onchange={(value) => {
-            this.showDobDateLoading = true;
+    if (this.user.canEditOwnBirthday()) {
+      items.add(
+        'birthday',
+        <FieldSet className="Settings-birthday" label={app.translator.trans(`datlechin-birthdays.forum.settings.dob_heading`)}>
+          <Switch
+            state={this.user.showDobDate()}
+            onchange={(value) => {
+              this.showDobDateLoading = true;
 
-            this.user.save({ showDobDate: value, showDobYear: value }).then(() => {
-              this.showDobDateLoading = false;
-              m.redraw();
-            });
-          }}
-          loading={this.showDobDateLoading}
-        >
-          {app.translator.trans('datlechin-birthdays.forum.settings.show_dob_date_label')}
-        </Switch>
-        <Switch
-          state={this.user.showDobDate() && this.user.showDobYear()}
-          onchange={(value) => {
-            this.showDobYearLoading = true;
+              this.user.save({ showDobDate: value, showDobYear: value }).then(() => {
+                this.showDobDateLoading = false;
+                m.redraw();
+              });
+            }}
+            loading={this.showDobDateLoading}
+          >
+            {app.translator.trans('datlechin-birthdays.forum.settings.show_dob_date_label')}
+          </Switch>
+          <Switch
+            state={this.user.showDobDate() && this.user.showDobYear()}
+            onchange={(value) => {
+              this.showDobYearLoading = true;
 
-            this.user.save({ showDobYear: value }).then(() => {
-              this.showDobYearLoading = false;
-              m.redraw();
-            });
-          }}
-          loading={this.showDobYearLoading || this.showDobDateLoading}
-        >
-          {app.translator.trans('datlechin-birthdays.forum.settings.show_dob_year_label')}
-        </Switch>
-        <span className="helpText">{app.translator.trans('datlechin-birthdays.forum.settings.show_dob_year_help')}</span>
-      </FieldSet>
-    );
+              this.user.save({ showDobYear: value }).then(() => {
+                this.showDobYearLoading = false;
+                m.redraw();
+              });
+            }}
+            loading={this.showDobYearLoading || this.showDobDateLoading}
+          >
+            {app.translator.trans('datlechin-birthdays.forum.settings.show_dob_year_label')}
+          </Switch>
+          <span className="helpText">{app.translator.trans('datlechin-birthdays.forum.settings.show_dob_year_help')}</span>
+        </FieldSet>
+      );
+    }
   });
 
   extend(SettingsPage.prototype, 'accountItems', function (items) {
-    items.add(
-      'changeBirthday',
-      <Button className="Button" onclick={() => app.modal.show(ChangeBirthdayModal)}>
-        {app.translator.trans('datlechin-birthdays.forum.settings.change_dob_label')}
-      </Button>
-    );
+    if (this.user.canEditOwnBirthday()) {
+      items.add(
+        'changeBirthday',
+        <Button className="Button" onclick={() => app.modal.show(ChangeBirthdayModal)}>
+          {app.translator.trans('datlechin-birthdays.forum.settings.change_dob_label')}
+        </Button>
+      );
+    }
   });
 });

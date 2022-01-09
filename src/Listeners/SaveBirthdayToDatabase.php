@@ -29,12 +29,12 @@ class SaveBirthdayToDatabase
         $actor = $event->actor;
         $attributes = Arr::get($data, 'attributes', []);
 
+        $actor->assertCan('editBirthday', $user);
+
         if (isset($attributes['showDobDate'])) $user->showDobDate = $attributes['showDobDate'];
         if (isset($attributes['showDobYear'])) $user->showDobYear = $attributes['showDobYear'];
 
         if (isset($attributes['birthday'])) {
-            $actor->assertCan('editBirthday', $user);
-
             $user->birthday = $attributes['birthday'] === '' ? null : $attributes['birthday'];
         }
     }

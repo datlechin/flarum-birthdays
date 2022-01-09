@@ -18,9 +18,12 @@ class AddUserBirthdayAttribute
 {
     public function __invoke(UserSerializer $serializer, User $user, array $attributes): array
     {
+        $actor = $serializer->getActor();
+
         $attributes['birthday'] = $user->birthday;
         $attributes['showDobDate'] = $user->showDobDate ? true : false;
         $attributes['showDobYear'] = $user->showDobYear ? true : false;
+        $attributes['canEditOwnBirthday'] = $actor->id === $user->id && $actor->can('editOwnBirthday', $user);
 
         return $attributes;
     }

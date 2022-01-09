@@ -22,7 +22,9 @@ class UserPolicy extends AbstractPolicy
     {
         if ($actor->isGuest() && !$user->exists && $this->settings->get('datlechin-birthdays.set_on_registration')) {
             return $this->allow();
-        } else if ($user->id === $actor->id) {
+        } else if ($user->id === $actor->id && $actor->hasPermission('user.editOwnBirthday')) {
+            return $this->allow();
+        } else if ($actor->can('edit', $user)) {
             return $this->allow();
         }
     }
