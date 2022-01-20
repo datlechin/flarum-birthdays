@@ -20,7 +20,7 @@ class UserPolicy extends AbstractPolicy
 
     public function editBirthday(User $actor, User $user)
     {
-        if ($actor->isGuest() && !$user->exists && $this->settings->get('datlechin-birthdays.set_on_registration')) {
+        if ($actor->isGuest() && !$user->exists || $this->settings->get('datlechin-birthdays.set_on_registration')) {
             return $this->allow();
         } else if ($user->id === $actor->id && $actor->hasPermission('user.editOwnBirthday')) {
             return $this->allow();
