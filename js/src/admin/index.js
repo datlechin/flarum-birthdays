@@ -12,7 +12,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
       setting: 'datlechin-birthdays.date_format',
       type: 'text',
       label: app.translator.trans('datlechin-birthdays.admin.settings.date_format_label'),
-      placeholder: 'DD MMMM YYYY',
+      placeholder: 'LL',
     })
     .registerSetting({
       setting: 'datlechin-birthdays.date_none_year_format',
@@ -25,7 +25,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
         <div className="Form-group">
           <p className="helpText">
             {app.translator.trans('datlechin-birthdays.admin.settings.date_format_help', {
-              a: <a href="http://momentjs.com/docs/#/displaying/format/" target="_blank" />,
+              a: <a href="https://day.js.org/docs/en/display/format" target="_blank" />,
             })}
           </p>
         </div>

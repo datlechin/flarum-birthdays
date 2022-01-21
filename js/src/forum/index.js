@@ -11,10 +11,44 @@ import Switch from 'flarum/common/components/Switch';
 import Stream from 'flarum/common/utils/Stream';
 import UserCard from 'flarum/forum/components/UserCard';
 import icon from 'flarum/common/helpers/icon';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+
+import 'dayjs/locale/vi';
+import 'dayjs/locale/tr';
+import 'dayjs/locale/nl';
+import 'dayjs/locale/az';
+import 'dayjs/locale/ml';
+import 'dayjs/locale/ja';
+import 'dayjs/locale/ta';
+import 'dayjs/locale/de';
+import 'dayjs/locale/hu';
+import 'dayjs/locale/ru';
+import 'dayjs/locale/it';
+import 'dayjs/locale/fr';
+import 'dayjs/locale/si';
+import 'dayjs/locale/pt-br';
+import 'dayjs/locale/pt';
+import 'dayjs/locale/es';
+import 'dayjs/locale/zh-hk';
+import 'dayjs/locale/zh-tw';
+import 'dayjs/locale/zh-cn';
+import 'dayjs/locale/uz';
+import 'dayjs/locale/th';
+import 'dayjs/locale/hi';
+import 'dayjs/locale/fi';
+import 'dayjs/locale/ro';
+import 'dayjs/locale/te';
+import 'dayjs/locale/lt';
+import 'dayjs/locale/lt';
+import 'dayjs/locale/sk';
+import 'dayjs/locale/sv';
+import 'dayjs/locale/fa';
 
 import ChangeBirthdayModal from './components/ChangeBirthdayModal';
 import calculateAge from './helpers/calculateAge';
+
+dayjs.extend(LocalizedFormat);
 
 app.initializers.add('datlechin/flarum-birthdays', () => {
   User.prototype.birthday = Model.attribute('birthday');
@@ -25,17 +59,17 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   extend(UserCard.prototype, 'infoItems', function (items) {
     const user = this.attrs.user;
     const userLocale = user.preferences()?.locale || app.translator.formatter.locale;
-    const dateFormat = app.forum.attribute('dateFormat') || 'DD MMMM YYYY';
+    const dateFormat = app.forum.attribute('dateFormat') || 'LL';
     const dateNoneYearFormat = app.forum.attribute('dateNoneYearFormat') || 'DD MMMM';
     let birthday = user.birthday();
     const age = calculateAge(birthday);
 
-    moment.locale(userLocale);
+    dayjs.locale(userLocale);
 
     if (birthday === null) return;
 
-    if (user.showDobDate() && user.showDobYear()) birthday = moment(birthday).format(dateFormat);
-    else if (user.showDobDate() === true && user.showDobYear() === false) birthday = moment(birthday).format(dateNoneYearFormat);
+    if (user.showDobDate() && user.showDobYear()) birthday = dayjs(birthday).locale(userLocale).format(dateFormat);
+    else if (user.showDobDate() === true && user.showDobYear() === false) birthday = dayjs(birthday).format(dateNoneYearFormat);
     else return;
 
     items.add(
