@@ -20,11 +20,12 @@ class AddUserBirthdayAttribute
     {
         $actor = $serializer->getActor();
 
-        $attributes['birthday'] = $user->birthday;
-        $attributes['showDobDate'] = $user->showDobDate ? true : false;
-        $attributes['showDobYear'] = $user->showDobYear ? true : false;
-        $attributes['canEditOwnBirthday'] = $actor->id === $user->id && $actor->can('editOwnBirthday', $user);
-
+        if ($actor->can('viewBirthday', $user)) {
+            $attributes['birthday'] = $user->birthday;
+            $attributes['showDobDate'] = $user->showDobDate ? true : false;
+            $attributes['showDobYear'] = $user->showDobYear ? true : false;
+            $attributes['canEditOwnBirthday'] = $actor->id === $user->id && $actor->can('editOwnBirthday', $user);
+        }
         return $attributes;
     }
 }

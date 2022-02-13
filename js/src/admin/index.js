@@ -38,5 +38,14 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
         permission: 'user.editOwnBirthday',
       },
       'start'
+    )
+    .registerPermission(
+      {
+        icon: 'fas fa-eye',
+        label: app.translator.trans('datlechin-birthdays.admin.permissions.view_birthday_label'),
+        permission: 'user.viewBirthday',
+        allowGuest: true,
+      },
+      'view'
     );
 });
