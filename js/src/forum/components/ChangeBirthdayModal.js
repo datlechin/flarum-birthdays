@@ -46,7 +46,7 @@ export default class ChangeBirthdayModal extends Modal {
 
     // If the user hasn't actually entered a different email address, we don't
     // need to do anything. Woot!
-    if (this.birthday() === app.session.user.birthday()) {
+    if (this.birthday() === app.session.user.birthday() && this.birthday() !== null) {
       this.hide();
       return;
     }

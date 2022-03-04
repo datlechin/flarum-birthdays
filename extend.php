@@ -38,9 +38,10 @@ return [
         ->attributes(AddUserBirthdayAttribute::class),
 
     (new Extend\Settings())
-        ->serializeToForum('setBirthdayOnRegistration', 'datlechin-birthdays.set_on_registration', 'boolval')
-        ->serializeToForum('dateFormat', 'datlechin-birthdays.date_format', 'strval')
-        ->serializeToForum('dateNoneYearFormat', 'datlechin-birthdays.date_none_year_format', 'strval'),
+        ->serializeToForum('datlechin-birthdays.setBirthdayOnRegistration', 'datlechin-birthdays.set_on_registration', 'boolval')
+        ->serializeToForum('datlechin-birthdays.dateFormat', 'datlechin-birthdays.date_format', 'strval')
+        ->serializeToForum('datlechin-birthdays.dateNoneYearFormat', 'datlechin-birthdays.date_none_year_format', 'strval')
+        ->default('datlechin-birthdays.min_age', 13),
 
     (new Extend\Validator(UserValidator::class))
         ->configure(AddBirthdayValidation::class),

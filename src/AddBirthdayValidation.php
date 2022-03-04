@@ -11,6 +11,7 @@
 
 namespace Datlechin\Birthdays;
 
+use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Validation\Validator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -21,10 +22,16 @@ class AddBirthdayValidation
      */
     protected $translator;
 
+    /**
+     * @var SettingsRepositoryInterface
+     */
+    protected $settings;
 
-    public function __construct(TranslatorInterface $translator)
+
+    public function __construct(TranslatorInterface $translator, SettingsRepositoryInterface $settings)
     {
         $this->translator = $translator;
+        $this->settings = $settings;
     }
 
     /**
@@ -35,19 +42,23 @@ class AddBirthdayValidation
         $rules = $validator->getRules();
 
         $rules['birthday'] = [
-            'nullable',
+            (bool) $this->settings->get('datlechin-birthdays.required') && (bool) $this->settings->get('datlechin-birthdays.set_on_registration') ? 'required' : 'nullable',
             'date_format:Y-m-d',
+            'before:today',
             function ($attribute, $value, $fail) {
                 if ($value) {
                     $birthday = new \DateTime($value);
                     $now = new \DateTime();
                     $diff = $now->diff($birthday);
-                    if ($diff->y > 100) {
+                    if ($diff->y <= (int) $this->settings->get('datlechin-birthdays.min_age')) {
+                        $fail($this->translator->trans('datlechin-birthdays.api.invalid_age_message', [
+                            'minAge' => (int) $this->settings->get('datlechin-birthdays.min_age')
+                        ]));
+                    } else if ($diff->y > 100) {
                         $fail($this->translator->trans('datlechin-birthdays.api.invalid_dob_message'));
                     }
                 }
             },
-            'before:today'
         ];
 
         $validator->setRules($rules);

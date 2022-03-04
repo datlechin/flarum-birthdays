@@ -59,8 +59,8 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   extend(UserCard.prototype, 'infoItems', function (items) {
     const user = this.attrs.user;
     const userLocale = user.preferences()?.locale || app.translator.formatter.locale;
-    const dateFormat = app.forum.attribute('dateFormat') || 'LL';
-    const dateNoneYearFormat = app.forum.attribute('dateNoneYearFormat') || 'DD MMMM';
+    const dateFormat = app.forum.attribute('datlechin-birthdays.dateFormat') || 'LL';
+    const dateNoneYearFormat = app.forum.attribute('datlechin-birthdays.dateNoneYearFormat') || 'DD MMMM';
     let birthday = user.birthday();
     const age = calculateAge(birthday);
 
@@ -104,13 +104,13 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   });
 
   extend(SignUpModal.prototype, 'oninit', function () {
-    if (app.forum.attribute('setBirthdayOnRegistration')) {
+    if (app.forum.attribute('datlechin-birthdays.setBirthdayOnRegistration')) {
       this.birthday = Stream(this.attrs.birthday || '');
     }
   });
 
   extend(SignUpModal.prototype, 'fields', function (items) {
-    if (app.forum.attribute('setBirthdayOnRegistration')) {
+    if (app.forum.attribute('datlechin-birthdays.setBirthdayOnRegistration')) {
       items.add(
         'birthday',
         <div className="Form-group">
@@ -122,7 +122,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   });
 
   extend(SignUpModal.prototype, 'submitData', function (data) {
-    if (app.forum.attribute('setBirthdayOnRegistration')) {
+    if (app.forum.attribute('datlechin-birthdays.setBirthdayOnRegistration')) {
       data.birthday = this.birthday();
     }
   });

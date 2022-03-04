@@ -9,6 +9,18 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
       label: app.translator.trans('datlechin-birthdays.admin.settings.set_on_registration_label'),
     })
     .registerSetting({
+      setting: 'datlechin-birthdays.required',
+      type: 'boolean',
+      label: app.translator.trans('datlechin-birthdays.admin.settings.required_label'),
+      help: app.translator.trans('datlechin-birthdays.admin.settings.required_help'),
+    })
+    .registerSetting({
+      setting: 'datlechin-birthdays.min_age',
+      type: 'number',
+      label: app.translator.trans('datlechin-birthdays.admin.settings.min_age_label'),
+      help: app.translator.trans('datlechin-birthdays.admin.settings.min_age_help'),
+    })
+    .registerSetting({
       setting: 'datlechin-birthdays.date_format',
       type: 'text',
       label: app.translator.trans('datlechin-birthdays.admin.settings.date_format_label'),
