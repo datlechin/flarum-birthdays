@@ -21,7 +21,6 @@ export default class BirthdaysPage extends Page {
     if (this.loading) {
       return <LoadingIndicator />;
     }
-    console.log(this.users);
 
     return (
       <div className="BirthdaysPage">
