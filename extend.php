@@ -13,16 +13,19 @@ namespace Datlechin\Birthdays;
 
 use Datlechin\Birthdays\AddBirthdayValidation;
 use Datlechin\Birthdays\Access\UserPolicy;
+use Datlechin\Birthdays\Filter\BirthdayFilter;
 use Datlechin\Birthdays\Listeners\AddUserBirthdayAttribute;
 use Datlechin\Birthdays\Listeners\SaveBirthdayToDatabase;
 use Flarum\Api\Serializer\UserSerializer;
 use Flarum\Extend;
 use Flarum\User\Event\Saving;
+use Flarum\User\Filter\UserFilterer;
 use Flarum\User\User;
 use Flarum\User\UserValidator;
 
 return [
     (new Extend\Frontend('forum'))
+        ->route('/birthdays', 'birthdays')
         ->js(__DIR__ . '/js/dist/forum.js')
         ->css(__DIR__ . '/less/forum.less'),
 
@@ -47,5 +50,8 @@ return [
         ->configure(AddBirthdayValidation::class),
 
     (new Extend\Policy())
-        ->modelPolicy(User::class, UserPolicy::class)
+        ->modelPolicy(User::class, UserPolicy::class),
+
+    (new Extend\Filter(UserFilterer::class))
+        ->addFilter(BirthdayFilter::class),
 ];

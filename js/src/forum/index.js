@@ -10,6 +10,8 @@ import FieldSet from 'flarum/common/components/FieldSet';
 import Switch from 'flarum/common/components/Switch';
 import Stream from 'flarum/common/utils/Stream';
 import UserCard from 'flarum/forum/components/UserCard';
+import IndexPage from 'flarum/forum/components/IndexPage';
+import LinkButton from 'flarum/common/components/LinkButton';
 import icon from 'flarum/common/helpers/icon';
 import dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
@@ -47,9 +49,11 @@ import 'dayjs/locale/fa';
 
 import ChangeBirthdayModal from './components/ChangeBirthdayModal';
 import calculateAge from './helpers/calculateAge';
+import BirthdaysPage from './components/BirthdaysPage';
 
 dayjs.extend(LocalizedFormat);
 
+app.routes.birthdays = { path: '/birthdays', component: BirthdaysPage };
 app.initializers.add('datlechin/flarum-birthdays', () => {
   User.prototype.birthday = Model.attribute('birthday');
   User.prototype.showDobDate = Model.attribute('showDobDate');
@@ -183,6 +187,23 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
         <Button className="Button" onclick={() => app.modal.show(ChangeBirthdayModal)}>
           {app.translator.trans('datlechin-birthdays.forum.settings.change_dob_label')}
         </Button>
+      );
+    }
+  });
+
+  extend(IndexPage.prototype, 'navItems', (items) => {
+    const user = app.session.user;
+
+    if (user || app.forum.attribute('canSearchUsers')) {
+      items.add(
+        'birthdays',
+        LinkButton.component(
+          {
+            icon: 'fas fa-birthday-cake',
+            href: app.route('birthdays'),
+          },
+          app.translator.trans('datlechin-birthdays.forum.nav.nav_item')
+        )
       );
     }
   });
