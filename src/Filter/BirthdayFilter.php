@@ -24,6 +24,8 @@ class BirthdayFilter implements FilterInterface
      */
     public function filter(FilterState $filterState, string $filterValue, bool $negate)
     {
-        $filterState->getQuery()->where('birthday', $negate ? '!=' : '=', $filterValue);
+        $birthday = date('m-d', strtotime($filterValue));
+
+        $filterState->getQuery()->whereRaw("DATE_FORMAT(birthday, '%m-%d') = ?", [$birthday]);
     }
 }
