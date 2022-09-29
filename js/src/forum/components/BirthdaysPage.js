@@ -58,7 +58,7 @@ export default class BirthdaysPage extends Page {
     const today = dayjs().format('YYYY-MM-DD');
     return app.store.find('users', {
       filter: {
-        birthday: today
+        birthday: today,
       },
     });
   }
