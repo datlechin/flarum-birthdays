@@ -9,23 +9,18 @@ use Flarum\User\User;
 
 class UserPolicy extends AbstractPolicy
 {
-    /**
-     * @var SettingsRepositoryInterface
-     */
-    protected $settings;
-
-    public function __construct(SettingsRepositoryInterface $settings)
+    public function __construct(protected SettingsRepositoryInterface $settings)
     {
-        $this->settings = $settings;
     }
 
-    public function viewBirthday(User $actor, User $user)
+    public function viewBirthday(User $actor, User $user): string
     {
-        if (!$actor->hasPermission('user.editOwnBirthday') && $this->isSuspended($user)) {
+        if (! $actor->hasPermission('user.editOwnBirthday') && $this->isSuspended($user)) {
             return $this->deny();
         }
 
-        if (($actor->id === $user->id && $actor->hasPermission('user.editOwnBirthday'))
+        if (
+            ($actor->id === $user->id && $actor->hasPermission('user.editOwnBirthday'))
             || $actor->hasPermission('user.viewBirthday')
         ) {
             return $this->allow();
@@ -34,7 +29,7 @@ class UserPolicy extends AbstractPolicy
         return $this->deny();
     }
 
-    public function editBirthday(User $actor, User $user)
+    public function editBirthday(User $actor, User $user): string
     {
         if ($actor->isGuest() && !$user->exists || $this->settings->get('datlechin-birthdays.set_on_registration')) {
             return $this->allow();
@@ -43,9 +38,10 @@ class UserPolicy extends AbstractPolicy
         } else if ($actor->can('edit', $user)) {
             return $this->allow();
         }
+
+        return $this->deny();
     }
 
-    // source https://github.com/FriendsOfFlarum/user-bio/blob/master/src/Access/UserPolicy.php
     protected function isSuspended(User $user): bool
     {
         return $user->suspended_until !== null

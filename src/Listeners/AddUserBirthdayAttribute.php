@@ -22,10 +22,11 @@ class AddUserBirthdayAttribute
 
         if ($actor->can('viewBirthday', $user)) {
             $attributes['birthday'] = $user->birthday;
-            $attributes['showDobDate'] = $user->showDobDate ? true : false;
-            $attributes['showDobYear'] = $user->showDobYear ? true : false;
+            $attributes['showDobDate'] = (bool) $user->showDobDate;
+            $attributes['showDobYear'] = (bool) $user->showDobYear;
             $attributes['canEditOwnBirthday'] = $actor->id === $user->id && $actor->can('editOwnBirthday', $user);
         }
+
         return $attributes;
     }
 }

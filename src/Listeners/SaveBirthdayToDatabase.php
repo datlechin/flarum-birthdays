@@ -17,12 +17,7 @@ use Illuminate\Support\Arr;
 class SaveBirthdayToDatabase
 {
 
-    /**
-     * Handle the event.
-     *
-     * @param Saving $event
-     */
-    public function handle(Saving $event)
+    public function handle(Saving $event): void
     {
         $user = $event->user;
         $data = $event->data;
@@ -31,8 +26,8 @@ class SaveBirthdayToDatabase
 
         $actor->assertCan('editBirthday', $user);
 
-        if (isset($attributes['showDobDate'])) $user->showDobDate = $attributes['showDobDate'];
-        if (isset($attributes['showDobYear'])) $user->showDobYear = $attributes['showDobYear'];
+        $user->showDobDate = $attributes['showDobDate'] ?? false;
+        $user->showDobYear = $attributes['showDobYear'] ?? false;
 
         if (isset($attributes['birthday'])) {
             $user->birthday = $attributes['birthday'] === '' ? null : $attributes['birthday'];
