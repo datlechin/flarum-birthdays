@@ -7,22 +7,12 @@ use Flarum\Filter\FilterState;
 
 class BirthdayFilter implements FilterInterface
 {
-
-    /**
-     * @return string
-     */
     public function getFilterKey(): string
     {
         return 'birthday';
     }
 
-    /**
-     * @param FilterState $filterState
-     * @param string $filterValue
-     * @param bool $negate
-     * @return void
-     */
-    public function filter(FilterState $filterState, string $filterValue, bool $negate)
+    public function filter(FilterState $filterState, string $filterValue, bool $negate): void
     {
         $birthday = date('m-d', strtotime($filterValue));
 

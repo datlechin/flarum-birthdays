@@ -102,9 +102,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   });
 
   extend(EditUserModal.prototype, 'data', function (data) {
-    if (this.birthday() !== this.attrs.user.birthday()) {
-      data.birthday = this.birthday();
-    }
+    data.birthday = this.birthday();
   });
 
   extend(SignUpModal.prototype, 'oninit', function () {

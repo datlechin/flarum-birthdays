@@ -11,44 +11,37 @@
 
 namespace Datlechin\Birthdays;
 
+use DateTime;
 use Flarum\Settings\SettingsRepositoryInterface;
+use Flarum\User\UserValidator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class AddBirthdayValidation
 {
-    /**
-     * @var TranslatorInterface
-     */
-    protected $translator;
-
-    /**
-     * @var SettingsRepositoryInterface
-     */
-    protected $settings;
-
-
-    public function __construct(TranslatorInterface $translator, SettingsRepositoryInterface $settings)
-    {
-        $this->translator = $translator;
-        $this->settings = $settings;
+    public function __construct(
+        protected TranslatorInterface $translator,
+        protected SettingsRepositoryInterface $settings
+    ) {
     }
 
-    /**
-     * @param Validator $validator
-     */
-    public function __invoke($flarumValidator, Validator $validator)
+    public function __invoke(UserValidator $flarumValidator, Validator $validator): void
     {
         $rules = $validator->getRules();
 
+        $isRequired = $this->settings->get('datlechin-birthdays.required')
+            && $this->settings->get('datlechin-birthdays.set_on_registration');
+
         $rules['birthday'] = [
-            (bool) $this->settings->get('datlechin-birthdays.required') && (bool) $this->settings->get('datlechin-birthdays.set_on_registration') ? 'required' : 'nullable',
+            'nullable',
+            Rule::requiredIf($isRequired && ! $flarumValidator->getUser()),
             'date_format:Y-m-d',
             'before:today',
             function ($attribute, $value, $fail) {
                 if ($value) {
-                    $birthday = new \DateTime($value);
-                    $now = new \DateTime();
+                    $birthday = new DateTime($value);
+                    $now = new DateTime();
                     $diff = $now->diff($birthday);
                     if ($diff->y <= (int) $this->settings->get('datlechin-birthdays.min_age')) {
                         $fail($this->translator->trans('datlechin-birthdays.api.invalid_age_message', [

@@ -11,7 +11,6 @@
 
 namespace Datlechin\Birthdays;
 
-use Datlechin\Birthdays\AddBirthdayValidation;
 use Datlechin\Birthdays\Access\UserPolicy;
 use Datlechin\Birthdays\Filter\BirthdayFilter;
 use Datlechin\Birthdays\Listeners\AddUserBirthdayAttribute;
