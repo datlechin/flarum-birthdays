@@ -26,9 +26,12 @@ class SaveBirthdayToDatabase
 
         $actor->assertCan('editBirthday', $user);
 
-        $user->showDobDate = $attributes['showDobDate'] ?? false;
-        $user->showDobYear = $attributes['showDobYear'] ?? false;
-
+        if (isset($attributes['showDobDate'])) {
+            $user->showDobDate = $attributes['showDobDate'];
+        }
+        if (isset($attributes['showDobYear'])) {
+            $user->showDobYear = $attributes['showDobYear'];
+        }
         if (isset($attributes['birthday'])) {
             $user->birthday = $attributes['birthday'] === '' ? null : $attributes['birthday'];
         }

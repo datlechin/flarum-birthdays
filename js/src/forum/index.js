@@ -42,7 +42,6 @@ import 'dayjs/locale/fi';
 import 'dayjs/locale/ro';
 import 'dayjs/locale/te';
 import 'dayjs/locale/lt';
-import 'dayjs/locale/lt';
 import 'dayjs/locale/sk';
 import 'dayjs/locale/sv';
 import 'dayjs/locale/fa';
@@ -74,6 +73,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
 
     if (user.showDobDate() && user.showDobYear()) birthday = dayjs(birthday).locale(userLocale).format(dateFormat);
     else if (user.showDobDate() === true && user.showDobYear() === false) birthday = dayjs(birthday).format(dateNoneYearFormat);
+    else if (user.showDobDate() === false && user.showDobYear() === true) birthday = dayjs(birthday).locale(userLocale).format('YYYY');
     else return;
 
     items.add(
@@ -149,7 +149,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
             onchange={(value) => {
               this.showDobDateLoading = true;
 
-              this.user.save({ showDobDate: value, showDobYear: value }).then(() => {
+              this.user.save({ showDobDate: value}).then(() => {
                 this.showDobDateLoading = false;
                 m.redraw();
               });
@@ -159,7 +159,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
             {app.translator.trans('datlechin-birthdays.forum.settings.show_dob_date_label')}
           </Switch>
           <Switch
-            state={this.user.showDobDate() && this.user.showDobYear()}
+            state={this.user.showDobYear()}
             onchange={(value) => {
               this.showDobYearLoading = true;
 
@@ -168,7 +168,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
                 m.redraw();
               });
             }}
-            loading={this.showDobYearLoading || this.showDobDateLoading}
+            loading={this.showDobYearLoading}
           >
             {app.translator.trans('datlechin-birthdays.forum.settings.show_dob_year_label')}
           </Switch>
