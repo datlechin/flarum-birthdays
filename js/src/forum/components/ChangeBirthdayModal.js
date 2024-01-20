@@ -1,6 +1,5 @@
 import Modal from 'flarum/common/components/Modal';
 import Button from 'flarum/common/components/Button';
-import Switch from 'flarum/common/components/Switch';
 import Stream from 'flarum/common/utils/Stream';
 
 export default class ChangeBirthdayModal extends Modal {
@@ -44,8 +43,6 @@ export default class ChangeBirthdayModal extends Modal {
   onsubmit(e) {
     e.preventDefault();
 
-    // If the user hasn't actually entered a different email address, we don't
-    // need to do anything. Woot!
     if (this.birthday() === app.session.user.birthday() && this.birthday() !== null) {
       this.hide();
       return;

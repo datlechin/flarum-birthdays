@@ -122,7 +122,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
             type="text"
             bidi={this.birthday}
             disabled={this.loading}
-            placeholder="Birthday"
+            placeholder={app.translator.trans('datlechin-birthdays.forum.sign_up.dob_placeholder')}
             onfocus={(e) => {
               e.target.type = 'date';
             }}
@@ -149,7 +149,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
             onchange={(value) => {
               this.showDobDateLoading = true;
 
-              this.user.save({ showDobDate: value}).then(() => {
+              this.user.save({ showDobDate: value }).then(() => {
                 this.showDobDateLoading = false;
                 m.redraw();
               });

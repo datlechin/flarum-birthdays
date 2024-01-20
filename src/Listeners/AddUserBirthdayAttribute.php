@@ -21,9 +21,9 @@ class AddUserBirthdayAttribute
         $actor = $serializer->getActor();
 
         if ($actor->can('viewBirthday', $user)) {
-            $attributes['birthday'] = $user->birthday;
-            $attributes['showDobDate'] = (bool) $user->showDobDate;
-            $attributes['showDobYear'] = (bool) $user->showDobYear;
+            $attributes['birthday'] = $user->getAttribute('birthday');
+            $attributes['showDobDate'] = (bool) $user->getAttribute('showDobDate');
+            $attributes['showDobYear'] = (bool) $user->getAttribute('showDobYear');
             $attributes['canEditOwnBirthday'] = $actor->id === $user->id && $actor->can('editOwnBirthday', $user);
         }
 

@@ -11,7 +11,6 @@
 
 namespace Datlechin\Birthdays;
 
-use DateTime;
 use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\UserValidator;
 use Illuminate\Validation\Rule;
@@ -23,8 +22,7 @@ class AddBirthdayValidation
     public function __construct(
         protected TranslatorInterface $translator,
         protected SettingsRepositoryInterface $settings
-    ) {
-    }
+    ) {}
 
     public function __invoke(UserValidator $flarumValidator, Validator $validator): void
     {
@@ -34,26 +32,18 @@ class AddBirthdayValidation
             && $this->settings->get('datlechin-birthdays.set_on_registration');
 
         $rules['birthday'] = [
-            'nullable',
-            Rule::requiredIf($isRequired && ! $flarumValidator->getUser()),
-            'date_format:Y-m-d',
-            'before:today',
-            function ($attribute, $value, $fail) {
-                if ($value) {
-                    $birthday = new DateTime($value);
-                    $now = new DateTime();
-                    $diff = $now->diff($birthday);
-                    if ($diff->y <= (int) $this->settings->get('datlechin-birthdays.min_age')) {
-                        $fail($this->translator->trans('datlechin-birthdays.api.invalid_age_message', [
-                            'minAge' => (int) $this->settings->get('datlechin-birthdays.min_age')
-                        ]));
-                    } else if ($diff->y > 100) {
-                        $fail($this->translator->trans('datlechin-birthdays.api.invalid_dob_message'));
-                    }
-                }
-            },
+            Rule::when($isRequired && ! $flarumValidator->getUser(), 'required', 'nullable'),
+            'date',
+            sprintf('before:-%s years', (int) $this->settings->get('datlechin-birthdays.min_age')),
         ];
 
         $validator->setRules($rules);
+
+        $validator->setCustomMessages([
+            ...$validator->customMessages,
+            'birthday.before' => $this->translator->trans('datlechin-birthdays.api.invalid_age_message', [
+                'minAge' => (int) $this->settings->get('datlechin-birthdays.min_age')
+            ]),
+        ]);
     }
 }

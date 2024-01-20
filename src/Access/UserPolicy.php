@@ -9,9 +9,7 @@ use Flarum\User\User;
 
 class UserPolicy extends AbstractPolicy
 {
-    public function __construct(protected SettingsRepositoryInterface $settings)
-    {
-    }
+    public function __construct(protected SettingsRepositoryInterface $settings) {}
 
     public function viewBirthday(User $actor, User $user): string
     {
@@ -33,9 +31,9 @@ class UserPolicy extends AbstractPolicy
     {
         if ($actor->isGuest() && !$user->exists || $this->settings->get('datlechin-birthdays.set_on_registration')) {
             return $this->allow();
-        } else if ($user->id === $actor->id && $actor->hasPermission('user.editOwnBirthday') && !$this->isSuspended($user)) {
+        } elseif ($user->id === $actor->id && $actor->hasPermission('user.editOwnBirthday') && !$this->isSuspended($user)) {
             return $this->allow();
-        } else if ($actor->can('edit', $user)) {
+        } elseif ($actor->can('edit', $user)) {
             return $this->allow();
         }
 

@@ -16,7 +16,6 @@ use Illuminate\Support\Arr;
 
 class SaveBirthdayToDatabase
 {
-
     public function handle(Saving $event): void
     {
         $user = $event->user;
@@ -29,9 +28,11 @@ class SaveBirthdayToDatabase
         if (isset($attributes['showDobDate'])) {
             $user->showDobDate = $attributes['showDobDate'];
         }
+
         if (isset($attributes['showDobYear'])) {
             $user->showDobYear = $attributes['showDobYear'];
         }
+
         if (isset($attributes['birthday'])) {
             $user->birthday = $attributes['birthday'] === '' ? null : $attributes['birthday'];
         }
