@@ -35,8 +35,8 @@ datlechin-birthdays:
     page:
       discussion_count: "{count, plural, one {Discussion: #} other {Discussions: #}}"
       post_count: "{count, plural, one {Post: #} other {Posts: #}}"
-      sign_up:
-        dob_placeholder: => datlechin-birthdays.ref.date_of_birth
+    sign_up:
+      dob_placeholder: => datlechin-birthdays.ref.date_of_birth
 
   api:
     invalid_dob_message: "Invalid date of birth"
