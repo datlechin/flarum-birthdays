@@ -1,0 +1,46 @@
+datlechin-birthdays:
+  admin:
+    permissions:
+      edit_own_birthday_label: Eigen verjaardag aanpassen
+      view_birthday_label: Verjaardagen bekijken
+
+    settings:
+      set_on_registration_label: Verjaardag invullen bij registratie
+      required_label: Verjaardag invullen is verplicht
+      required_help: Schakel "Verjaardag invullen bij registratie" in om deze optie te kunnen gebruiken
+      min_age_label: Minimumleeftijd
+      min_age_help: De minimumleeftijd voor registratie
+      date_format_label: Datumformaat
+      date_format_help: Gebruik het <a>dayjs</a>-formaat. Laat dit veld leeg om het standaardformaat te gebruiken.
+      date_none_year_label: Datumformaat zonder jaar
+
+  forum:
+    user:
+      birthday_text: "Verjaardag: {date}"
+      age_text: "Leeftijd: {age}"
+    change_dob:
+      title: Verjaardag aanpassen
+      date_of_birth_text: => datlechin-birthdays.ref.date_of_birth
+      submit_button: => core.ref.save_changes
+    settings:
+      change_dob_label: Verjaardag aanpassen
+      dob_heading: => datlechin-birthdays.ref.date_of_birth
+      show_dob_date_label: Dag en maand tonen
+      show_dob_year_label: Jaar tonen
+      show_dob_year_help: Dit zal ook de leeftijd tonen.
+    edit_user:
+      dob_heading: => datlechin-birthdays.ref.date_of_birth
+    nav:
+      nav_item: Verjaardagen vandaag
+    page:
+      discussion_count: "{count, plural, one {Discussie: #} other {Discussies: #}}"
+      post_count: "{count, plural, one {Bericht: #} other {Berichten: #}}"
+    sign_up:
+      dob_placeholder: => datlechin-birthdays.ref.date_of_birth
+
+  api:
+    invalid_dob_message: "Ongeldige verjaardag opgegeven"
+    invalid_age_message: "De minimumleeftijd is {minAge} jaar."
+
+  ref:
+    date_of_birth: Verjaardag
