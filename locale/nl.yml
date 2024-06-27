@@ -31,7 +31,7 @@ datlechin-birthdays:
     edit_user:
       dob_heading: => datlechin-birthdays.ref.date_of_birth
     nav:
-      nav_item: Verjaardagen vandaag
+      nav_item: Vandaag jarig
     page:
       discussion_count: "{count, plural, one {Discussie: #} other {Discussies: #}}"
       post_count: "{count, plural, one {Bericht: #} other {Berichten: #}}"
