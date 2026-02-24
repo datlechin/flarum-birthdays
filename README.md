@@ -22,16 +22,6 @@ composer update datlechin/flarum-birthdays:"*"
 php flarum cache:clear
 ```
 
-## Goal
-
-- [x] Show birthdays on user card.
-- [x] User can set their own birthdays.
-- [x] Add ability to user can hide their date of birth and age.
-- [ ] Add a widget to show birthdays on the forum homepage.
-- [x] Add birthday field to `EditUserModal` modal.
-- [x] Add for the users birthday during registration.
-- [x] Add ability to who can see and edit the birthdays.
-
 ## Links
 
 - [Packagist](https://packagist.org/packages/datlechin/flarum-birthdays)
