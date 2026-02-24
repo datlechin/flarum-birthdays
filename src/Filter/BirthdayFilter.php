@@ -2,9 +2,13 @@
 
 namespace Datlechin\Birthdays\Filter;
 
-use Flarum\Filter\FilterInterface;
-use Flarum\Filter\FilterState;
+use Flarum\Search\Database\DatabaseSearchState;
+use Flarum\Search\Filter\FilterInterface;
+use Flarum\Search\SearchState;
 
+/**
+ * @implements FilterInterface<DatabaseSearchState>
+ */
 class BirthdayFilter implements FilterInterface
 {
     public function getFilterKey(): string
@@ -12,10 +16,10 @@ class BirthdayFilter implements FilterInterface
         return 'birthday';
     }
 
-    public function filter(FilterState $filterState, string $filterValue, bool $negate): void
+    public function filter(SearchState $state, string|array $value, bool $negate): void
     {
-        $birthday = date('m-d', strtotime($filterValue));
+        $birthday = date('m-d', strtotime(is_array($value) ? $value[0] : $value));
 
-        $filterState->getQuery()->whereRaw("DATE_FORMAT(birthday, '%m-%d') = ?", [$birthday]);
+        $state->getQuery()->whereRaw("DATE_FORMAT(birthday, '%m-%d') = ?", [$birthday]);
     }
 }

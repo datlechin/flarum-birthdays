@@ -17,7 +17,8 @@ use Flarum\Api\Context;
 use Flarum\Api\Resource;
 use Flarum\Api\Schema;
 use Flarum\Extend;
-use Flarum\User\Filter\UserFilterer;
+use Flarum\Search\Database\DatabaseSearchDriver;
+use Flarum\User\Search\UserSearcher;
 use Flarum\User\User;
 use Flarum\User\UserValidator;
 
@@ -67,6 +68,6 @@ return [
     (new Extend\Policy())
         ->modelPolicy(User::class, UserPolicy::class),
 
-    (new Extend\Filter(UserFilterer::class))
-        ->addFilter(BirthdayFilter::class),
+    (new Extend\SearchDriver(DatabaseSearchDriver::class))
+        ->addFilter(UserSearcher::class, BirthdayFilter::class),
 ];
