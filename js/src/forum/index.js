@@ -114,13 +114,9 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
           <input
             className="FormControl birthday"
             name="birthday"
-            type="text"
+            type="date"
             bidi={this.birthday}
             disabled={this.loading}
-            placeholder={app.translator.trans('datlechin-birthdays.forum.sign_up.dob_placeholder')}
-            onfocus={(e) => {
-              e.target.type = 'date';
-            }}
           />
         </div>,
         20
