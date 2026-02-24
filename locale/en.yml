@@ -35,12 +35,11 @@ datlechin-birthdays:
     page:
       discussion_count: "{count, plural, one {Discussion: #} other {Discussions: #}}"
       post_count: "{count, plural, one {Post: #} other {Posts: #}}"
-    sign_up:
-      dob_placeholder: => datlechin-birthdays.ref.date_of_birth
 
   api:
     invalid_dob_message: "Invalid date of birth"
     invalid_age_message: "Your age must be at least {minAge} years old."
+    birthday_required_message: "Date of birth is required."
 
   ref:
     date_of_birth: Date of Birth

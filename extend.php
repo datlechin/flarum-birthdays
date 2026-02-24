@@ -18,9 +18,11 @@ use Flarum\Api\Resource;
 use Flarum\Api\Schema;
 use Flarum\Extend;
 use Flarum\Search\Database\DatabaseSearchDriver;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Flarum\User\Search\UserSearcher;
 use Flarum\User\User;
 use Flarum\User\UserValidator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 return [
     (new Extend\Frontend('forum'))
@@ -39,6 +41,26 @@ return [
                 ->visible(fn (User $user, Context $context) => $context->getActor()->can('viewBirthday', $user))
                 ->writable(fn (User $user, Context $context) => $context->getActor()->can('editBirthday', $user))
                 ->nullable()
+                ->required(function (Context $context) {
+                    $settings = resolve(SettingsRepositoryInterface::class);
+
+                    return $context->creating()
+                        && (bool) $settings->get('datlechin-birthdays.required')
+                        && (bool) $settings->get('datlechin-birthdays.set_on_registration');
+                })
+                ->rule('nullable')
+                ->rule('date')
+                ->rule(function () {
+                    $minAge = (int) resolve(SettingsRepositoryInterface::class)->get('datlechin-birthdays.min_age');
+
+                    return sprintf('before:-%s years', $minAge);
+                })
+                ->validationMessages([
+                    'birthday.required' => resolve(TranslatorInterface::class)->trans('datlechin-birthdays.api.birthday_required_message'),
+                    'birthday.before' => resolve(TranslatorInterface::class)->trans('datlechin-birthdays.api.invalid_age_message', [
+                        'minAge' => (int) resolve(SettingsRepositoryInterface::class)->get('datlechin-birthdays.min_age'),
+                    ]),
+                ])
                 ->get(fn (User $user) => $user->birthday)
                 ->set(function (User $user, ?string $value) {
                     $user->birthday = ($value === '' || $value === null) ? null : $value;
