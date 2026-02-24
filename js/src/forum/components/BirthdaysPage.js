@@ -35,7 +35,9 @@ export default class BirthdaysPage extends Page {
                 <ul className="UserBirthdaysList-users">
                   {this.users.map((user) => (
                     <li>
-                      <Link href={app.route.user(user)}><Avatar user={user} /></Link>
+                      <Link href={app.route.user(user)}>
+                        <Avatar user={user} />
+                      </Link>
                       <div className="UserBirthdaysList-main">
                         <Link href={app.route.user(user)}>{username(user)}</Link>
                         <ul className="UserStats">
