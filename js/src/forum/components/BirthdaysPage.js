@@ -5,6 +5,7 @@ import listItems from 'flarum/common/helpers/listItems';
 import Avatar from 'flarum/common/components/Avatar';
 import username from 'flarum/common/helpers/username';
 import Link from 'flarum/common/components/Link';
+import dayjs from 'dayjs';
 
 export default class BirthdaysPage extends Page {
   oninit(vnode) {
@@ -66,10 +67,15 @@ export default class BirthdaysPage extends Page {
   }
 
   setResults(results) {
-    results.then((users) => {
-      this.users = users;
-      this.loading = false;
-      m.redraw();
-    });
+    results
+      .then((users) => {
+        this.users = users;
+        this.loading = false;
+        m.redraw();
+      })
+      .catch(() => {
+        this.loading = false;
+        m.redraw();
+      });
   }
 }

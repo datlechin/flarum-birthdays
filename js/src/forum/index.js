@@ -66,10 +66,11 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
 
     if (birthday === null) return;
 
+    if (!user.showDobDate() && !user.showDobYear()) return;
+
     if (user.showDobDate() && user.showDobYear()) birthday = dayjs(birthday).format(dateFormat);
-    else if (user.showDobDate() === true && user.showDobYear() === false) birthday = dayjs(birthday).format(dateNoneYearFormat);
-    else if (user.showDobDate() === false && user.showDobYear() === true) birthday = dayjs(birthday).format('YYYY');
-    else return;
+    else if (user.showDobDate()) birthday = dayjs(birthday).format(dateNoneYearFormat);
+    else birthday = dayjs(birthday).format('YYYY');
 
     items.add(
       'birthday',

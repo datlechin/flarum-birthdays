@@ -39,6 +39,7 @@ datlechin-birthdays:
   api:
     invalid_dob_message: "Ongeldige verjaardag opgegeven"
     invalid_age_message: "De minimumleeftijd is {minAge} jaar."
+    birthday_required_message: "Geboortedatum is verplicht."
 
   ref:
     date_of_birth: Verjaardag
