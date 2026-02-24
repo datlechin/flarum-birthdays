@@ -31,9 +31,11 @@ class AddBirthdayValidation
         $isRequired = $this->settings->get('datlechin-birthdays.required')
             && $this->settings->get('datlechin-birthdays.set_on_registration');
 
+        $isNewUser = ! $flarumValidator->getUser();
+        $mustRequire = $isRequired && $isNewUser;
+
         $rules['birthday'] = [
-            'sometimes',
-            Rule::when($isRequired && ! $flarumValidator->getUser(), 'required', 'nullable'),
+            ...($mustRequire ? ['required'] : ['sometimes', 'nullable']),
             'date',
             sprintf('before:-%s years', (int) $this->settings->get('datlechin-birthdays.min_age')),
         ];
