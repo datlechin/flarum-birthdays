@@ -13,11 +13,10 @@ namespace Datlechin\Birthdays;
 
 use Datlechin\Birthdays\Access\UserPolicy;
 use Datlechin\Birthdays\Filter\BirthdayFilter;
-use Datlechin\Birthdays\Listeners\AddUserBirthdayAttribute;
-use Datlechin\Birthdays\Listeners\SaveBirthdayToDatabase;
-use Flarum\Api\Serializer\UserSerializer;
+use Flarum\Api\Context;
+use Flarum\Api\Resource;
+use Flarum\Api\Schema;
 use Flarum\Extend;
-use Flarum\User\Event\Saving;
 use Flarum\User\Filter\UserFilterer;
 use Flarum\User\User;
 use Flarum\User\UserValidator;
@@ -33,11 +32,28 @@ return [
 
     new Extend\Locales(__DIR__ . '/locale'),
 
-    (new Extend\Event())
-        ->listen(Saving::class, SaveBirthdayToDatabase::class),
-
-    (new Extend\ApiSerializer(UserSerializer::class))
-        ->attributes(AddUserBirthdayAttribute::class),
+    (new Extend\ApiResource(Resource\UserResource::class))
+        ->fields(fn () => [
+            Schema\Str::make('birthday')
+                ->visible(fn (User $user, Context $context) => $context->getActor()->can('viewBirthday', $user))
+                ->writable(fn (User $user, Context $context) => $context->getActor()->can('editBirthday', $user))
+                ->nullable()
+                ->get(fn (User $user) => $user->birthday)
+                ->set(function (User $user, ?string $value) {
+                    $user->birthday = ($value === '' || $value === null) ? null : $value;
+                }),
+            Schema\Boolean::make('showDobDate')
+                ->visible(fn (User $user, Context $context) => $context->getActor()->can('viewBirthday', $user))
+                ->writable(fn (User $user, Context $context) => $context->getActor()->can('editBirthday', $user))
+                ->get(fn (User $user) => (bool) $user->showDobDate),
+            Schema\Boolean::make('showDobYear')
+                ->visible(fn (User $user, Context $context) => $context->getActor()->can('viewBirthday', $user))
+                ->writable(fn (User $user, Context $context) => $context->getActor()->can('editBirthday', $user))
+                ->get(fn (User $user) => (bool) $user->showDobYear),
+            Schema\Boolean::make('canEditOwnBirthday')
+                ->visible(fn (User $user, Context $context) => $context->getActor()->can('viewBirthday', $user))
+                ->get(fn (User $user, Context $context) => $context->getActor()->id === $user->id && $context->getActor()->can('editOwnBirthday', $user)),
+        ]),
 
     (new Extend\Settings())
         ->serializeToForum('datlechin-birthdays.setBirthdayOnRegistration', 'datlechin-birthdays.set_on_registration', 'boolval')
