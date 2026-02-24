@@ -12,7 +12,7 @@ import Stream from 'flarum/common/utils/Stream';
 import UserCard from 'flarum/forum/components/UserCard';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import LinkButton from 'flarum/common/components/LinkButton';
-import icon from 'flarum/common/helpers/icon';
+import Icon from 'flarum/common/components/Icon';
 import dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 
@@ -79,7 +79,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
     items.add(
       'birthday',
       <>
-        {icon('fas fa-birthday-cake')}
+        <Icon name="fas fa-birthday-cake" />
         <span className="birthday">{app.translator.trans('datlechin-birthdays.forum.user.birthday_text', { date: birthday })}</span>
         {user.showDobYear() ? <span className="age">({app.translator.trans('datlechin-birthdays.forum.user.age_text', { age: age })})</span> : null}
       </>
