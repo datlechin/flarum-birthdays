@@ -29,7 +29,7 @@ class UserPolicy extends AbstractPolicy
 
     public function editBirthday(User $actor, User $user): string
     {
-        if ($actor->isGuest() && !$user->exists || $this->settings->get('datlechin-birthdays.set_on_registration')) {
+        if ($actor->isGuest() && !$user->exists && (bool) $this->settings->get('datlechin-birthdays.set_on_registration')) {
             return $this->allow();
         } elseif ($user->id === $actor->id && $actor->hasPermission('user.editOwnBirthday') && !$this->isSuspended($user)) {
             return $this->allow();

@@ -2,9 +2,10 @@ import Page from 'flarum/common/components/Page';
 import IndexPage from 'flarum/forum/components/IndexPage';
 import LoadingIndicator from 'flarum/common/components/LoadingIndicator';
 import listItems from 'flarum/common/helpers/listItems';
-import avatar from 'flarum/common/helpers/avatar';
+import Avatar from 'flarum/common/components/Avatar';
 import username from 'flarum/common/helpers/username';
 import Link from 'flarum/common/components/Link';
+import dayjs from 'dayjs';
 
 export default class BirthdaysPage extends Page {
   oninit(vnode) {
@@ -35,7 +36,9 @@ export default class BirthdaysPage extends Page {
                 <ul className="UserBirthdaysList-users">
                   {this.users.map((user) => (
                     <li>
-                      <Link href={app.route.user(user)}>{avatar(user)}</Link>
+                      <Link href={app.route.user(user)}>
+                        <Avatar user={user} />
+                      </Link>
                       <div className="UserBirthdaysList-main">
                         <Link href={app.route.user(user)}>{username(user)}</Link>
                         <ul className="UserStats">
@@ -64,10 +67,15 @@ export default class BirthdaysPage extends Page {
   }
 
   setResults(results) {
-    results.then((users) => {
-      this.users = users;
-      this.loading = false;
-      m.redraw();
-    });
+    results
+      .then((users) => {
+        this.users = users;
+        this.loading = false;
+        m.redraw();
+      })
+      .catch(() => {
+        this.loading = false;
+        m.redraw();
+      });
   }
 }

@@ -7,8 +7,8 @@
     "type": "flarum-extension",
     "license": "MIT",
     "require": {
-        "php": "^8.0",
-        "flarum/core": "^1.5"
+        "php": "^8.2",
+        "flarum/core": "^2.0.0-beta"
     },
     "authors": [
         {

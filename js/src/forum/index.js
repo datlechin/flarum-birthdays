@@ -2,17 +2,12 @@ import app from 'flarum/forum/app';
 import { extend } from 'flarum/common/extend';
 import User from 'flarum/common/models/User';
 import Model from 'flarum/common/Model';
-import SignUpModal from 'flarum/forum/components/SignUpModal';
-import EditUserModal from 'flarum/common/components/EditUserModal';
 import Button from 'flarum/common/components/Button';
-import SettingsPage from 'flarum/forum/components/SettingsPage';
 import FieldSet from 'flarum/common/components/FieldSet';
 import Switch from 'flarum/common/components/Switch';
 import Stream from 'flarum/common/utils/Stream';
-import UserCard from 'flarum/forum/components/UserCard';
-import IndexPage from 'flarum/forum/components/IndexPage';
 import LinkButton from 'flarum/common/components/LinkButton';
-import icon from 'flarum/common/helpers/icon';
+import Icon from 'flarum/common/components/Icon';
 import dayjs from 'dayjs';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 
@@ -59,9 +54,9 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
   User.prototype.showDobYear = Model.attribute('showDobYear');
   User.prototype.canEditOwnBirthday = Model.attribute('canEditOwnBirthday');
 
-  extend(UserCard.prototype, 'infoItems', function (items) {
+  extend('flarum/forum/components/UserCard', 'infoItems', function (items) {
     const user = this.attrs.user;
-    const userLocale = user.preferences()?.locale || app.translator.formatter.locale;
+    const userLocale = user.preferences()?.locale || app.translator.getLocale();
     const dateFormat = app.forum.attribute('datlechin-birthdays.dateFormat') || 'LL';
     const dateNoneYearFormat = app.forum.attribute('datlechin-birthdays.dateNoneYearFormat') || 'DD MMMM';
     let birthday = user.birthday();
@@ -71,26 +66,27 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
 
     if (birthday === null) return;
 
-    if (user.showDobDate() && user.showDobYear()) birthday = dayjs(birthday).locale(userLocale).format(dateFormat);
-    else if (user.showDobDate() === true && user.showDobYear() === false) birthday = dayjs(birthday).format(dateNoneYearFormat);
-    else if (user.showDobDate() === false && user.showDobYear() === true) birthday = dayjs(birthday).locale(userLocale).format('YYYY');
-    else return;
+    if (!user.showDobDate() && !user.showDobYear()) return;
+
+    if (user.showDobDate() && user.showDobYear()) birthday = dayjs(birthday).format(dateFormat);
+    else if (user.showDobDate()) birthday = dayjs(birthday).format(dateNoneYearFormat);
+    else birthday = dayjs(birthday).format('YYYY');
 
     items.add(
       'birthday',
       <>
-        {icon('fas fa-birthday-cake')}
+        <Icon name="fas fa-birthday-cake" />
         <span className="birthday">{app.translator.trans('datlechin-birthdays.forum.user.birthday_text', { date: birthday })}</span>
         {user.showDobYear() ? <span className="age">({app.translator.trans('datlechin-birthdays.forum.user.age_text', { age: age })})</span> : null}
       </>
     );
   });
 
-  extend(EditUserModal.prototype, 'oninit', function () {
+  extend('flarum/common/components/EditUserModal', 'oninit', function () {
     this.birthday = Stream(this.attrs.user.birthday());
   });
 
-  extend(EditUserModal.prototype, 'fields', function (items) {
+  extend('flarum/common/components/EditUserModal', 'fields', function (items) {
     items.add(
       'birthday',
       <div className="Form-group">
@@ -101,45 +97,35 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
     );
   });
 
-  extend(EditUserModal.prototype, 'data', function (data) {
+  extend('flarum/common/components/EditUserModal', 'data', function (data) {
     data.birthday = this.birthday();
   });
 
-  extend(SignUpModal.prototype, 'oninit', function () {
+  extend('flarum/forum/components/SignUpModal', 'oninit', function () {
     if (app.forum.attribute('datlechin-birthdays.setBirthdayOnRegistration')) {
       this.birthday = Stream(this.attrs.birthday || '');
     }
   });
 
-  extend(SignUpModal.prototype, 'fields', function (items) {
+  extend('flarum/forum/components/SignUpModal', 'fields', function (items) {
     if (app.forum.attribute('datlechin-birthdays.setBirthdayOnRegistration')) {
       items.add(
         'birthday',
         <div className="Form-group">
-          <input
-            className="FormControl birthday"
-            name="birthday"
-            type="text"
-            bidi={this.birthday}
-            disabled={this.loading}
-            placeholder={app.translator.trans('datlechin-birthdays.forum.sign_up.dob_placeholder')}
-            onfocus={(e) => {
-              e.target.type = 'date';
-            }}
-          />
+          <input className="FormControl birthday" name="birthday" type="date" bidi={this.birthday} disabled={this.loading} />
         </div>,
         20
       );
     }
   });
 
-  extend(SignUpModal.prototype, 'submitData', function (data) {
+  extend('flarum/forum/components/SignUpModal', 'submitData', function (data) {
     if (app.forum.attribute('datlechin-birthdays.setBirthdayOnRegistration')) {
       data.birthday = this.birthday();
     }
   });
 
-  extend(SettingsPage.prototype, 'settingsItems', function (items) {
+  extend('flarum/forum/components/SettingsPage', 'settingsItems', function (items) {
     if (this.user.canEditOwnBirthday()) {
       items.add(
         'birthday',
@@ -178,7 +164,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
     }
   });
 
-  extend(SettingsPage.prototype, 'accountItems', function (items) {
+  extend('flarum/forum/components/SettingsPage', 'accountItems', function (items) {
     if (this.user.canEditOwnBirthday()) {
       items.add(
         'changeBirthday',
@@ -189,7 +175,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
     }
   });
 
-  extend(IndexPage.prototype, 'navItems', (items) => {
+  extend('flarum/forum/components/IndexPage', 'navItems', (items) => {
     const user = app.session.user;
 
     if (user || app.forum.attribute('canSearchUsers')) {
