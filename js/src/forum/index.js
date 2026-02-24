@@ -56,7 +56,7 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
 
   extend('flarum/forum/components/UserCard', 'infoItems', function (items) {
     const user = this.attrs.user;
-    const userLocale = user.preferences()?.locale || app.translator.formatter.locale;
+    const userLocale = user.preferences()?.locale || app.translator.getLocale();
     const dateFormat = app.forum.attribute('datlechin-birthdays.dateFormat') || 'LL';
     const dateNoneYearFormat = app.forum.attribute('datlechin-birthdays.dateNoneYearFormat') || 'DD MMMM';
     let birthday = user.birthday();
@@ -66,9 +66,9 @@ app.initializers.add('datlechin/flarum-birthdays', () => {
 
     if (birthday === null) return;
 
-    if (user.showDobDate() && user.showDobYear()) birthday = dayjs(birthday).locale(userLocale).format(dateFormat);
+    if (user.showDobDate() && user.showDobYear()) birthday = dayjs(birthday).format(dateFormat);
     else if (user.showDobDate() === true && user.showDobYear() === false) birthday = dayjs(birthday).format(dateNoneYearFormat);
-    else if (user.showDobDate() === false && user.showDobYear() === true) birthday = dayjs(birthday).locale(userLocale).format('YYYY');
+    else if (user.showDobDate() === false && user.showDobYear() === true) birthday = dayjs(birthday).format('YYYY');
     else return;
 
     items.add(
