@@ -4,7 +4,9 @@ All notable changes to this extension are listed here. It follows [Semantic Vers
 
 ## [Unreleased]
 
-The stable 3.0.0. Run `php flarum migrate` after updating. Birthdays and each member's show/hide choices carry over from 3.0.0-beta.1 and from 2.x.
+## [3.0.0] - 2026-10-27
+
+Run `php flarum migrate` after updating. Birthdays and each member's show/hide choices carry over from 3.0.0-beta.1 and from 2.x.
 
 ### Added
 
@@ -65,5 +67,6 @@ The stable 3.0.0. Run `php flarum migrate` after updating. Birthdays and each me
 
 Releases up to 2.1.2, for Flarum 1, are described on [GitHub Releases](https://github.com/datlechin/flarum-birthdays/releases).
 
-[Unreleased]: https://github.com/datlechin/flarum-birthdays/compare/v3.0.0-beta.1...HEAD
+[Unreleased]: https://github.com/datlechin/flarum-birthdays/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/datlechin/flarum-birthdays/compare/v3.0.0-beta.1...v3.0.0
 [3.0.0-beta.1]: https://github.com/datlechin/flarum-birthdays/compare/v2.1.2...v3.0.0-beta.1
