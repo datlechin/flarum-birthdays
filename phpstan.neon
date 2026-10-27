@@ -1,0 +1,11 @@
+includes:
+  - vendor/flarum/phpstan/extension.neon
+
+parameters:
+  level: 6
+  paths:
+    - extend.php
+    - src
+  databaseMigrationsPath: ['migrations']
+  ignoreErrors:
+    - identifier: missingType.iterableValue

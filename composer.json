@@ -1,58 +1,116 @@
 {
-  "name": "datlechin/flarum-birthdays",
-  "description": "Adds birthdays to user.",
-  "keywords": [
-    "flarum"
-  ],
-  "type": "flarum-extension",
-  "license": "MIT",
-  "require": {
-    "php": "^8.2",
-    "flarum/core": "2.0.1"
-  },
-  "authors": [
-    {
-      "name": "Ngo Quoc Dat",
-      "email": "datlechin@gmail.com",
-      "role": "Developer"
-    }
-  ],
-  "support": {
-    "source": "https://github.com/datlechin/flarum-birthdays",
-    "forum": "https://discuss.flarum.org/d/29793"
-  },
-  "autoload": {
-    "psr-4": {
-      "Datlechin\\Birthdays\\": "src/"
-    }
-  },
-  "homepage": "https://ngoquocdat.dev",
-  "extra": {
-    "flarum-extension": {
-      "title": "Birthdays",
-      "category": "feature",
-      "icon": {
-        "name": "fas fa-birthday-cake",
-        "color": "#fff",
-        "backgroundColor": "#D3241C"
-      }
+    "name": "datlechin/flarum-birthdays",
+    "description": "Member birthdays on profiles, a page of who celebrates this week, and a greeting on the day.",
+    "keywords": [
+        "flarum",
+        "birthday",
+        "birthdays",
+        "age",
+        "profile"
+    ],
+    "type": "flarum-extension",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/datlechin/flarum-birthdays/issues",
+        "source": "https://github.com/datlechin/flarum-birthdays",
+        "forum": "https://discuss.flarum.org/d/29793"
     },
-    "flarum-cli": {
-      "modules": {
-        "admin": true,
-        "forum": true,
-        "js": true,
-        "jsCommon": false,
-        "css": true,
-        "gitConf": true,
-        "githubActions": true,
-        "prettier": true,
-        "typescript": false,
-        "bundlewatch": false,
-        "backendTesting": false,
-        "editorConfig": true,
-        "styleci": true
-      }
+    "homepage": "https://github.com/datlechin/flarum-birthdays",
+    "funding": [
+        {
+            "type": "github",
+            "url": "https://github.com/sponsors/datlechin"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "flarum/core": "^2.0"
+    },
+    "authors": [
+        {
+            "name": "Ngo Quoc Dat",
+            "email": "datlechin@gmail.com",
+            "homepage": "https://nqd.vn",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Datlechin\\Birthdays\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Datlechin\\Birthdays\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Birthdays",
+            "category": "feature",
+            "icon": {
+                "name": "fas fa-cake-candles",
+                "color": "#fff",
+                "backgroundColor": "#D3241C"
+            },
+            "optional-dependencies": [
+                "flarum-gdpr"
+            ],
+            "database-support": [
+                "mysql",
+                "mariadb",
+                "pgsql",
+                "sqlite"
+            ]
+        },
+        "flarum-cli": {
+            "modules": {
+                "admin": true,
+                "forum": true,
+                "js": true,
+                "jsCommon": true,
+                "css": true,
+                "locale": true,
+                "gitConf": true,
+                "githubActions": true,
+                "prettier": true,
+                "typescript": true,
+                "bundlewatch": false,
+                "frontendTesting": true,
+                "backendTesting": true,
+                "phpstan": true,
+                "editorConfig": true,
+                "styleci": true
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "test": [
+            "@test:unit",
+            "@test:integration"
+        ],
+        "test:unit": "phpunit -c tests/phpunit.unit.xml",
+        "test:integration": "phpunit -c tests/phpunit.integration.xml",
+        "test:setup": "@php tests/integration/setup.php",
+        "analyse:phpstan": [
+            "@php tests/phpstan-setup.php",
+            "phpstan analyse"
+        ],
+        "clear-cache:phpstan": "phpstan clear-result-cache"
+    },
+    "scripts-descriptions": {
+        "test": "Runs all tests.",
+        "test:unit": "Runs all unit tests.",
+        "test:integration": "Runs all integration tests.",
+        "test:setup": "Sets up a database for use with integration tests. Execute this only once.",
+        "analyse:phpstan": "Run static analysis"
+    },
+    "require-dev": {
+        "flarum/testing": "^2.0",
+        "flarum/phpstan": "^2.0",
+        "flarum/gdpr": "*",
+        "laravel/pint": "^1.18"
     }
-  }
 }

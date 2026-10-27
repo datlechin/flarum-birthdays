@@ -5,41 +5,62 @@ datlechin-birthdays:
       view_birthday_label: Verjaardagen bekijken
 
     settings:
-      set_on_registration_label: Verjaardag invullen bij registratie
-      required_label: Verjaardag invullen is verplicht
-      required_help: Schakel "Verjaardag invullen bij registratie" in om deze optie te kunnen gebruiken
+      min_age_help: Leden moeten minstens zo oud zijn. Geldt telkens wanneer een verjaardag wordt opgeslagen. Zet op 0 om alleen datums in de toekomst te weigeren.
       min_age_label: Minimumleeftijd
-      min_age_help: De minimumleeftijd voor registratie
-      date_format_label: Datumformaat
-      date_format_help: Gebruik het <a>dayjs</a>-formaat. Laat dit veld leeg om het standaardformaat te gebruiken.
-      date_none_year_label: Datumformaat zonder jaar
+      sign_up_help: Of het registratieformulier om een verjaardag vraagt.
+      sign_up_label: Verjaardag bij registratie
+      sign_up_options:
+        off: Niet vragen
+        optional: Vragen, optioneel
+        required: Vragen, verplicht
+
+    users:
+      birthday_column: => datlechin-birthdays.lib.birthday_label
+      no_birthday: Niet ingevuld
 
   forum:
-    user:
-      birthday_text: "Verjaardag: {date}"
-      age_text: "Leeftijd: {age}"
-    change_dob:
-      title: Verjaardag aanpassen
-      date_of_birth_text: => datlechin-birthdays.ref.date_of_birth
+    badge:
+      birthday_tooltip: Vandaag jarig
+
+    change_birthday:
       submit_button: => core.ref.save_changes
-    settings:
-      change_dob_label: Verjaardag aanpassen
-      dob_heading: => datlechin-birthdays.ref.date_of_birth
-      show_dob_date_label: Dag en maand tonen
-      show_dob_year_label: Jaar tonen
-      show_dob_year_help: Dit zal ook de leeftijd tonen.
-    edit_user:
-      dob_heading: => datlechin-birthdays.ref.date_of_birth
+      title: => datlechin-birthdays.forum.settings.change_birthday_button
+
     nav:
-      nav_item: Vandaag jarig
+      birthdays_link: => datlechin-birthdays.forum.page.title
+
+    notifications:
+      birthday_text: "Gefeliciteerd met je verjaardag, namens iedereen op {forum}!"
+
     page:
-      discussion_count: "{count, plural, one {Discussie: #} other {Discussies: #}}"
-      post_count: "{count, plural, one {Bericht: #} other {Berichten: #}}"
+      empty_text: Geen verjaardagen in de komende week.
+      load_more_button: => core.ref.load_more
+      title: Verjaardagen
+      today_heading: Vandaag
+      tomorrow_heading: Morgen
+      turns_text: "Wordt {age}"
+
+    settings:
+      add_birthday_button: Verjaardag toevoegen
+      change_birthday_button: Verjaardag aanpassen
+      notify_birthday_label: Feliciteer me op mijn verjaardag
+      show_age_label: Toon mijn leeftijd op mijn profiel
+      show_birthday_label: Toon mijn verjaardag op mijn profiel
+
+    user_card:
+      age_text: "Leeftijd {age}"
+      birthday_and_age_text: "Jarig op {date}, leeftijd {age}"
+      birthday_text: "Jarig op {date}"
 
   api:
-    invalid_dob_message: "Ongeldige verjaardag opgegeven"
-    invalid_age_message: "De minimumleeftijd is {minAge} jaar."
-    birthday_required_message: "Geboortedatum is verplicht."
+    future_birthday_message: Je verjaardag kan niet in de toekomst liggen.
+    invalid_birthday_filter_message: "Het verjaardagsfilter verwacht een datum of een periode van maximaal {max} dagen, zoals 2026-06-05..2026-06-11."
+    min_age_message: "Je moet minstens {age} jaar oud zijn."
 
-  ref:
-    date_of_birth: Verjaardag
+  lib:
+    birthday_label: Verjaardag
+
+    datetime_formats:
+      birthday: D MMMM
+      birthdayWithYear: LL
+      day: dddd D MMMM
