@@ -1,78 +1,75 @@
-.UserCard-info {
-  .item-birthday {
-    display: block;
-    margin-top: 20px;
+.Badge--birthday {
+  --badge-bg: #d3241c;
+}
 
-    i {
-      margin-right: 5px;
-    }
+// Core sizes the other text-like inputs of a centered form, but not date.
+.Form--centered .FormControl[type="date"] {
+  height: 50px;
+  padding: 15px 20px;
+  font-size: 15px;
+  text-align: center;
 
-    .birthday {
-      margin-right: 5px;
-    }
+  @media @phone {
+    font-size: 16px;
   }
 }
 
-.Form-group {
-  .birthday {
-    height: 50px;
-    text-align: center;
-    padding-left: 45px;
+.BirthdayList-day + .BirthdayList-day {
+  margin-top: 30px;
+}
+
+.BirthdayList-date {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--muted-color);
+}
+
+.BirthdayList-users {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.BirthdayList-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--border-radius);
+  background: var(--control-bg);
+  color: var(--control-color);
+
+  &:hover,
+  &:focus {
+    background: var(--control-bg-shaded);
+    text-decoration: none;
+  }
+
+  .Avatar {
+    .Avatar--size(32px);
   }
 }
 
-.UserBirthdaysList {
-  &-users {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    gap: 10px;
+.BirthdayList-username {
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-    li {
-      padding: 10px 15px;
-      border-radius: var(--border-radius);
-      background-color: var(--control-bg);
-      display: flex;
-      align-items: center;
+.BirthdayList-age {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--muted-color);
+  white-space: nowrap;
+}
 
-      a {
-        text-decoration: none;
-      }
-
-      @media @phone {
-        min-width: 100%;
-      }
-
-      .Avatar {
-        margin-right: 7px;
-      }
-
-      .username {
-        font-weight: bold;
-      }
-    }
-  }
-
-  &-main {
-    display: flex;
-    flex-direction: column;
-
-    .UserStats {
-      padding: 0;
-      margin-top: 3px;
-
-      li {
-        display: inline;
-        padding: 0;
-        color: var(--muted-color);
-
-        &:not(:last-child)::after {
-          content: "•";
-          margin: 0 5px;
-        }
-      }
-    }
-  }
+.BirthdayList-loadMore {
+  margin-top: 20px;
+  text-align: center;
 }
