@@ -1,6 +1,6 @@
 {
     "name": "datlechin/flarum-birthdays",
-    "description": "Birthdays for your members: on their profile, on a page of who celebrates soon, and a greeting on the day.",
+    "description": "Member birthdays on profiles, a page of who celebrates this week, and a greeting on the day.",
     "keywords": [
         "flarum",
         "birthday",
@@ -15,7 +15,7 @@
         "source": "https://github.com/datlechin/flarum-birthdays",
         "forum": "https://discuss.flarum.org/d/29793"
     },
-    "homepage": "https://nqd.vn",
+    "homepage": "https://github.com/datlechin/flarum-birthdays",
     "funding": [
         {
             "type": "github",
@@ -30,6 +30,7 @@
         {
             "name": "Ngo Quoc Dat",
             "email": "datlechin@gmail.com",
+            "homepage": "https://nqd.vn",
             "role": "Developer"
         }
     ],
@@ -54,6 +55,12 @@
             },
             "optional-dependencies": [
                 "flarum-gdpr"
+            ],
+            "database-support": [
+                "mysql",
+                "mariadb",
+                "pgsql",
+                "sqlite"
             ]
         },
         "flarum-cli": {
